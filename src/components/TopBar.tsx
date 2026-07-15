@@ -14,7 +14,7 @@ export function TopBar() {
       <div className="flex items-center gap-2">
         <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600" />
         <span className="text-sm font-semibold tracking-tight text-neutral-800 dark:text-neutral-100">
-          Snap2PDF
+          Paste2PDF
         </span>
       </div>
 
