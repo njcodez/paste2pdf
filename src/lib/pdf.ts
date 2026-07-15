@@ -1,7 +1,12 @@
 import { PDFDocument } from "pdf-lib";
 import type { Page } from "@/types/page";
-import { A4_WIDTH_PT, A4_HEIGHT_PT, JPEG_QUALITY } from "@/utils/constants";
+import { PAGE_SIZES, JPEG_QUALITY, type PageSizeKey, type FitMode } from "@/utils/constants";
 import { computeFitDimensions } from "@/utils/scaleImage";
+
+interface GenerateOptions {
+  pageSize: PageSizeKey;
+  fitMode: FitMode;
+}
 
 async function pageImageToJpegBytes(page: Page): Promise<Uint8Array> {
   const bitmap = page.imageBitmap!;
@@ -25,27 +30,25 @@ async function pageImageToJpegBytes(page: Page): Promise<Uint8Array> {
   return new Uint8Array(await blob.arrayBuffer());
 }
 
-export async function generatePdf(pages: Page[]): Promise<Blob> {
+export async function generatePdf(pages: Page[], options: GenerateOptions): Promise<Blob> {
   const pdfDoc = await PDFDocument.create();
 
   for (const page of pages) {
     const jpegBytes = await pageImageToJpegBytes(page);
     const jpegImage = await pdfDoc.embedJpg(jpegBytes);
 
-    const pdfPage = pdfDoc.addPage([A4_WIDTH_PT, A4_HEIGHT_PT]);
-    const { width, height, x, y } = computeFitDimensions(
-      page.width,
-      page.height,
-      A4_WIDTH_PT,
-      A4_HEIGHT_PT
-    );
-
-    pdfPage.drawImage(jpegImage, { x, y, width, height });
+    if (options.fitMode === "matchImage") {
+      // page size = image size, no border
+      const pdfPage = pdfDoc.addPage([page.width, page.height]);
+      pdfPage.drawImage(jpegImage, { x: 0, y: 0, width: page.width, height: page.height });
+    } else {
+      const { width: pw, height: ph } = PAGE_SIZES[options.pageSize];
+      const pdfPage = pdfDoc.addPage([pw, ph]);
+      const { width, height, x, y } = computeFitDimensions(page.width, page.height, pw, ph);
+      pdfPage.drawImage(jpegImage, { x, y, width, height });
+    }
   }
 
-const bytes = await pdfDoc.save();
-
-return new Blob([new Uint8Array(bytes)], {
-  type: "application/pdf",
-});
+  const bytes = await pdfDoc.save();
+  return new Blob([bytes], { type: "application/pdf" });
 }

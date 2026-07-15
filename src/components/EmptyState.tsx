@@ -1,13 +1,19 @@
-import { Clipboard } from "lucide-react";
+import { ImagePlus } from "lucide-react";
 
-export function EmptyState() {
+export function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-3 py-24 text-center">
+    <div
+      onClick={onAdd}
+      className="flex flex-1 cursor-pointer flex-col items-center justify-center gap-3 py-24 text-center transition hover:bg-neutral-50 dark:hover:bg-neutral-900/40"
+    >
       <div className="rounded-2xl border border-dashed border-neutral-300 p-5 dark:border-neutral-700">
-        <Clipboard className="text-neutral-400" size={28} />
+        <ImagePlus className="text-neutral-400" size={28} />
       </div>
-      <p className="text-sm text-neutral-500">
-        Press <kbd className="rounded bg-neutral-100 px-1.5 py-0.5 text-xs dark:bg-neutral-800">Ctrl</kbd> + <kbd className="rounded bg-neutral-100 px-1.5 py-0.5 text-xs dark:bg-neutral-800">V</kbd> to paste a screenshot, or add images from your device.
+      <p className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
+        Click anywhere to add images
+      </p>
+      <p className="text-xs text-neutral-400">
+        or paste a screenshot with Ctrl+V
       </p>
     </div>
   );

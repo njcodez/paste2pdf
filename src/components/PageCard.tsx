@@ -2,8 +2,8 @@
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical, Trash2 } from "lucide-react";
-import { Thumbnail } from "./Thumbnail";
+import { motion } from "framer-motion";
+import { Trash2 } from "lucide-react";
 import type { Page } from "@/types/page";
 import { usePagesStore } from "@/store/usePagesStore";
 
@@ -15,35 +15,42 @@ export function PageCard({ page, index }: { page: Page; index: number }) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
   };
 
   return (
-    <div
+    <motion.div
       ref={setNodeRef}
-      style={style}
-      className="flex items-center gap-4 rounded-xl border border-neutral-200 bg-white p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+      style={{ ...style, touchAction: "none" }}
+      {...attributes}
+      {...listeners}
+      layout
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: isDragging ? 0.5 : 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.7, rotate: -12, y: 30 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="group relative flex w-36 cursor-grab flex-col items-center gap-1.5 rounded-xl border border-neutral-200 bg-white p-2 shadow-sm active:cursor-grabbing dark:border-neutral-800 dark:bg-neutral-900"
     >
       <button
-        {...attributes}
-        {...listeners}
-        className="cursor-grab text-neutral-400 active:cursor-grabbing"
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          removePage(page.id);
+        }}
+        className="absolute right-1.5 top-1.5 z-10 rounded-md bg-white/90 p-1 text-neutral-400 shadow-sm transition hover:bg-red-50 hover:text-red-500 dark:bg-neutral-800/90 dark:hover:bg-red-950"
       >
-        <GripVertical size={18} />
+        <Trash2 size={14} />
       </button>
 
-      <Thumbnail src={page.thumbnail} alt={`Page ${index + 1}`} />
+      <img
+        src={page.thumbnail}
+        alt={`Page ${index + 1}`}
+        draggable={false}
+        className="h-40 w-full rounded-lg object-contain"
+      />
 
-      <span className="text-sm font-medium text-neutral-500">
+      <span className="text-xs font-medium text-neutral-500">
         Page {index + 1}
       </span>
-
-      <button
-        onClick={() => removePage(page.id)}
-        className="ml-auto rounded-full p-2 text-neutral-400 transition hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950"
-      >
-        <Trash2 size={16} />
-      </button>
-    </div>
+    </motion.div>
   );
 }
