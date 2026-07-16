@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { get as idbGet, set as idbSet } from "idb-keyval";
 import type { Page } from "@/types/page";
-import { createThumbnail } from "@/lib/canvas";
 
 const STORAGE_KEY = "snap2pdf-pages";
 
@@ -17,11 +16,13 @@ interface PagesState {
   pages: Page[];
   isGenerating: boolean;
   hydrated: boolean;
+  isDragging: boolean;
   addPage: (page: Page) => void;
   removePage: (id: string) => void;
   reorderPages: (fromIndex: number, toIndex: number) => void;
   clearPages: () => void;
   setGenerating: (value: boolean) => void;
+  setDragging: (value: boolean) => void;
   hydrate: () => Promise<void>;
 }
 
@@ -40,6 +41,7 @@ export const usePagesStore = create<PagesState>((set, getState) => ({
   pages: [],
   isGenerating: false,
   hydrated: false,
+  isDragging: false,
 
   addPage: (page) => {
     const pages = [...getState().pages, page];
@@ -67,6 +69,7 @@ export const usePagesStore = create<PagesState>((set, getState) => ({
   },
 
   setGenerating: (value) => set({ isGenerating: value }),
+  setDragging: (value) => set({ isDragging: value }),
 
   hydrate: async () => {
     const stored = (await idbGet(STORAGE_KEY)) as StoredPage[] | undefined;
@@ -91,4 +94,3 @@ export const usePagesStore = create<PagesState>((set, getState) => ({
     set({ pages, hydrated: true });
   },
 }));
-

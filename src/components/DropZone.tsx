@@ -2,6 +2,7 @@
 
 import { useState, type DragEvent, type MouseEvent } from "react";
 import { useImageLoader } from "@/hooks/useImageLoader";
+import { usePagesStore } from "@/store/usePagesStore";
 
 interface Props {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface Props {
 export function DropZone({ children, onAdd }: Props) {
   const [isOver, setIsOver] = useState(false);
   const { loadFiles } = useImageLoader();
+  const hasPages = usePagesStore((s) => s.pages.length > 0);
 
   function handleDrop(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
@@ -19,8 +21,6 @@ export function DropZone({ children, onAdd }: Props) {
   }
 
   function handleBackgroundClick(e: MouseEvent<HTMLDivElement>) {
-    // Only trigger when the click lands on the empty background itself,
-    // not on a page card, button, or other child element.
     if (e.target === e.currentTarget) onAdd();
   }
 
@@ -33,10 +33,15 @@ export function DropZone({ children, onAdd }: Props) {
       onDragLeave={() => setIsOver(false)}
       onDrop={handleDrop}
       onClick={handleBackgroundClick}
-      className={`min-h-[60vh] flex-1 transition-colors ${
+      className={`relative min-h-[60vh] flex-1 transition-colors ${
         isOver ? "bg-indigo-50/60 dark:bg-indigo-950/20" : ""
       }`}
     >
+      {hasPages && (
+        <p className="pointer-events-none absolute inset-x-0 top-2 select-none text-center text-xs text-neutral-300 dark:text-neutral-700">
+          Click anywhere to add more · Drag pages to reorder
+        </p>
+      )}
       {children}
     </div>
   );
