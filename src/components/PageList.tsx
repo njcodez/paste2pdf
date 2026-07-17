@@ -62,7 +62,7 @@ export function PageList() {
         onDragEnd={handleDragEnd}
       >
         <SortableContext items={pages.map((p) => p.id)} strategy={rectSortingStrategy}>
-          <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-4 p-5">
+          <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-4 px-5 pb-5 pt-12">
             <AnimatePresence mode="popLayout">
               {pages.map((page, index) => (
                 <PageCard key={page.id} page={page} index={index} onPreview={setPreviewPage} />
