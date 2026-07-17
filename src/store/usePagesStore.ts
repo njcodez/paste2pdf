@@ -72,7 +72,7 @@ export const usePagesStore = create<PagesState>((set, getState) => ({
   setDragging: (value) => set({ isDragging: value }),
 
   hydrate: async () => {
-    const stored = (await idbGet(STORAGE_KEY)) as StoredPage[] | undefined;
+    const stored = await idbGet<StoredPage[]>(STORAGE_KEY);
     if (!stored || stored.length === 0) {
       set({ hydrated: true });
       return;

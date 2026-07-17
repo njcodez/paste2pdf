@@ -50,5 +50,5 @@ export async function generatePdf(pages: Page[], options: GenerateOptions): Prom
   }
 
   const bytes = await pdfDoc.save();
-  return new Blob([bytes], { type: "application/pdf" });
+  return new Blob([new Uint8Array(bytes)], { type: "application/pdf" });
 }

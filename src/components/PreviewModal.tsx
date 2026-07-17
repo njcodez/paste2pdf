@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { X } from "lucide-react";
 import type { Page } from "@/types/page";
 
@@ -13,13 +14,25 @@ interface Props {
 
 export function PreviewModal({ page, onClose }: Props) {
   const [mounted, setMounted] = useState(false);
+  const [objectUrl, setObjectUrl] = useState<string | null>(null);
+
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (!page) {
+      setObjectUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(page.file);
+    setObjectUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [page]);
 
   if (!mounted) return null;
 
   return createPortal(
     <AnimatePresence>
-      {page && (
+      {page && objectUrl && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -46,10 +59,14 @@ export function PreviewModal({ page, onClose }: Props) {
               <X size={18} />
             </motion.button>
 
-            <img
-              src={URL.createObjectURL(page.file)}
+            <Image
+              src={objectUrl}
               alt="Page preview"
-              className="max-h-[80vh] max-w-full rounded-lg object-contain"
+              width={page.width}
+              height={page.height}
+              unoptimized
+              className="max-h-[80vh] w-auto max-w-full rounded-lg object-contain"
+              style={{ height: "auto", maxHeight: "80vh" }}
             />
           </motion.div>
         </motion.div>

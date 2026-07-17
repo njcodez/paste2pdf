@@ -2,6 +2,7 @@
 
 import { useSortable } from "@dnd-kit/sortable";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import type { Page } from "@/types/page";
 import { usePagesStore } from "@/store/usePagesStore";
@@ -59,13 +60,16 @@ export function PageCard({ page, index, onPreview }: Props) {
         <Trash2 size={14} />
       </motion.button>
 
-      <img
-        src={page.thumbnail}
-        alt={`Page ${index + 1}`}
-        draggable={false}
-        onDragStart={(e) => e.preventDefault()}
-        className="pointer-events-none h-40 w-full select-none rounded-lg object-contain"
-      />
+      <div className="pointer-events-none relative h-40 w-full select-none">
+        <Image
+          src={page.thumbnail}
+          alt={`Page ${index + 1}`}
+          fill
+          draggable={false}
+          unoptimized
+          className="select-none rounded-lg object-contain"
+        />
+      </div>
 
       <span className="pointer-events-none select-none text-xs font-medium text-neutral-500">
         Page {index + 1}
