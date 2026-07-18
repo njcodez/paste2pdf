@@ -1,29 +1,52 @@
-# Create T3 App
+# Paste2PDF
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Turn screenshots and images into a PDF — entirely in your browser. No uploads, no servers, no accounts.
 
-## What's next? How do I make an app with this?
+## Why
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Everyone's done this: paste a screenshot into Word, resize it, paste the next one, repeat. Paste2PDF skips all that. Paste, arrange, download.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Features
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- Paste screenshots directly with Ctrl+V
+- Add images from your device (PNG, JPG, WEBP)
+- Drag to reorder pages
+- Click a page to preview it full-size
+- Choose page size (A3–A5, Letter, Legal, Tabloid, Executive) and fit mode
+- Name your file before downloading
+- Pages persist locally across reloads (IndexedDB)
+- Fully responsive — works on desktop, tablet, and mobile
 
-## Learn More
+## Privacy
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+No image or PDF data ever leaves your device. There is no backend, no upload endpoint, and no analytics tied to your file content. Everything — clipboard reading, image scaling, and PDF generation — runs client-side using browser APIs (`Canvas`, `ClipboardEvent`, `pdf-lib`).
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Tech Stack
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Next.js (App Router) · TypeScript · Tailwind CSS · Zustand · dnd-kit · pdf-lib · Framer Motion
 
-## How do I deploy this?
+## Getting Started
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```bash
+git clone https://github.com/njcodez/paste2pdf.git
+cd paste2pdf
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+## Contributing
+
+This is an MVP and there's plenty of room to grow — rotate/crop pages, multiple export formats, OCR, PWA offline support, dark mode polish, and more are all fair game. If the idea of a genuinely private, no-upload-required PDF tool interests you, contributions are welcome.
+
+1. Fork the repo
+2. Create a branch (`git checkout -b feature/your-idea`)
+3. Commit your changes
+4. Open a PR
+
+No CLA, no gatekeeping — just keep the core principle intact: **nothing leaves the browser.**
+
+## License
+
+MIT

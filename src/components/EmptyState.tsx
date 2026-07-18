@@ -16,18 +16,14 @@ export function EmptyState({ onAdd }: { onAdd: () => void }) {
       >
         <ImagePlus className="text-neutral-300 dark:text-neutral-600" size={56} />
       </motion.div>
-      
       <p className="max-w-md text-3xl font-semibold tracking-tight text-neutral-400 dark:text-neutral-500 sm:text-4xl">
-        <span className="sm:hidden">Tap anywhere to add pages</span>
-        <span className="hidden sm:inline">Click anywhere to add pages</span>
+        Click anywhere to add pages
       </p>
-
-
       <p className="text-base text-neutral-300 dark:text-neutral-600">
-        <span className="sm:hidden">Drag pages to reorder once added</span>
-        <span className="hidden sm:inline">
-          or paste a screenshot with Ctrl+V. Drag pages to reorder once added
-        </span>
+        or paste a screenshot with Ctrl+V — drag pages to reorder once added
+      </p>
+      <p className="text-xs font-medium text-neutral-300 dark:text-neutral-700">
+        100% on-device · no file uploads · nothing ever leaves your browser
       </p>
     </div>
   );
