@@ -1,6 +1,6 @@
 # Paste2PDF
 
-Turn screenshots and images into a PDF — entirely in your browser. No uploads, no servers, no accounts.
+Turn screenshots and images into a PDF, entirely in your browser. No uploads, no servers, no accounts.
 
 ## Why
 
@@ -15,7 +15,7 @@ Everyone's done this: paste a screenshot into Word, resize it, paste the next on
 - Choose page size (A3–A5, Letter, Legal, Tabloid, Executive) and fit mode
 - Name your file before downloading
 - Pages persist locally across reloads (IndexedDB)
-- Fully responsive — works on desktop, tablet, and mobile
+- Fully responsive - works on desktop, tablet, and mobile
 
 ## Privacy
 
@@ -45,7 +45,7 @@ This is an MVP and there's plenty of room to grow — rotate/crop pages, multipl
 3. Commit your changes
 4. Open a PR
 
-No CLA, no gatekeeping — just keep the core principle intact: **nothing leaves the browser.**
+No gatekeeping — just keep the core principle intact: **nothing leaves the browser.**
 
 ## License
 
